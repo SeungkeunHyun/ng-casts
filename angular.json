@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "ng-casts"
+    }
+  },
+  "defaultProject": "ng-casts",
+  "cli": {
+    "analytics": false
+  }
 }

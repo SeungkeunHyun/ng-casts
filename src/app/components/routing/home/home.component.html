@@ -1,3 +1,18 @@
+<p-carousel [value]="casts" [numVisible]="5" [numScroll]="5" [circular]="false" [responsiveOptions]="responsiveOptions">
+    <ng-template let-cast pTemplate="item">
+        <div (click)="showEpisodes(cast)">
+            <p-card header="{{cast.name}}" subheader='episodes: {{cast.episodes}}' [style]="{width: '200px'}"
+                styleClass="p-card-shadow">
+                <p-header>
+                    <img alt="Card" src="{{cast.imageURL}}" width='60px'>
+                </p-header>
+                <p title='{{cast.summary}}'>{{cast.summary | slice:0:50}}</p>
+            </p-card>
+        </div>
+    </ng-template>
+</p-carousel>
+
+<!--// 
 <p-table [columns]="cols" [value]="casts">
     <ng-template pTemplate="header" let-columns>
         <tr>
@@ -9,8 +24,19 @@
     <ng-template pTemplate="body" let-rowData let-columns="cols">
         <tr>
             <td *ngFor="let col of cols">
-                {{rowData[col.field]}}
+                <div *ngIf="col.field == 'name'; then thenBlock else elseBlock"></div>
+                <ng-template #thenBlock>
+                    <p-card header="{{rowData.name}}" subheader='episodes: {{rowData.episodes}}' [style]="{width: '200px'}"
+                        styleClass="p-card-shadow">
+                        <p-header>
+                            <img alt="Card" src="{{rowData.imageURL}}" width='60px'>
+                        </p-header>
+                        <p>{{rowData.summary | slice:0:100}}</p>
+                    </p-card>
+                </ng-template>
+                <ng-template #elseBlock>{{rowData[col.field]}}</ng-template>
             </td>
         </tr>
     </ng-template>
-</p-table> 
+</p-table>
+//-->

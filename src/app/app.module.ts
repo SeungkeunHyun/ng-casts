@@ -8,6 +8,9 @@ import { HomeComponent } from './components/routing/home/home.component';
 import { EditComponent } from './components/routing/edit/edit.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TableModule } from 'primeng/table';
+import {CardModule} from 'primeng/card';
+import {CarouselModule} from 'primeng/carousel';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +23,9 @@ import { TableModule } from 'primeng/table';
     TabMenuModule,
     AppRoutingModule,
     HttpClientModule,
-    TableModule
+    TableModule,
+    CardModule,
+    CarouselModule
   ],
   providers: [],
   bootstrap: [AppComponent]

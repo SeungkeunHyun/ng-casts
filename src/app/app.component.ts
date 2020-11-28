@@ -14,7 +14,7 @@ export class AppComponent {
   ngOnInit() {
     this.items = [
       { label: 'Home', icon: 'pi pi-fw pi-home', routerLink: 'home' },
-      { label: 'Edit', icon: 'pi pi-fw pi-pencil', routerLink: 'edit'},
+      { label: 'Edit', icon: 'pi pi-fw pi-pencil', routerLink: 'edit' },
       { label: 'Settings', icon: 'pi pi-fw pi-cog' }
     ];
     this.activeItem = this.items[0];

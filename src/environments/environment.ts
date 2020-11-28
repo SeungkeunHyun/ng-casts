@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  esHost: "http://10.152.183.110:9200",
+  esUsername: 'elastic',
+  esPassword: 'KCZlKfANOUtm520xUnxV'
 };
 
 /*

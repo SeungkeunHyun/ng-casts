@@ -11,23 +11,36 @@ import { TableModule } from 'primeng/table';
 import { CardModule } from 'primeng/card';
 import { CarouselModule } from 'primeng/carousel';
 import { DataViewModule } from 'primeng/dataview';
-
+import { OrderListModule } from 'primeng/orderlist';
+import { SidebarModule } from 'primeng/sidebar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SidebarComponent } from './components/parts/sidebar/sidebar.component';
+import { TimeagoModule } from 'ngx-timeago';
+import { CommonModule } from "@angular/common";
+import { PlayerComponent } from './components/parts/player/player.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    EditComponent
+    EditComponent,
+    SidebarComponent,
+    PlayerComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     TabMenuModule,
     AppRoutingModule,
     HttpClientModule,
     TableModule,
     CardModule,
     CarouselModule,
-    DataViewModule
+    DataViewModule,
+    OrderListModule,
+    SidebarModule,
+    CommonModule,
+    TimeagoModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,35 @@
+<p-sidebar #dt1 [visible]="display" [(position)]="position" styleClass="p-sidebar-lg" [baseZIndex]="10000"
+    (onHide)="disposeAll()" (onShow)="setTableData()">
+    <p-table styleClass="p-datatable-sm" styleClass="p-datatable-striped" [globalFilterFields]="['title']"
+        [scrollable]="true" [scrollHeight]="scrollHeight" *ngIf="episodes" [value]="episodes">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex">
+                <span class="p-input-icon-left p-ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                        placeholder="Search keyword" />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr class='p-grid'>
+                <th class="p-col-1">pub date</th>
+                <th class="p-col-9">title</th>
+                <th class="p-col-2">duration</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-episode>
+            <tr (click)="playEpisode(episode)">
+                <td>
+                    {{episode['pubDate'] | date:'yy/MM/dd HH:mm'}}
+                </td>
+                <td>
+                    <span title="{{episode.summary}}">{{episode['title']}}</span>
+                </td>
+                <td>
+                    {{episode['duration']}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-sidebar>

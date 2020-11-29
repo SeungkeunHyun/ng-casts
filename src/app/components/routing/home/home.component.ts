@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Cast } from 'src/app/core/models/cast';
+import { Episode } from 'src/app/core/models/episode';
 import { HttpService } from 'src/app/core/services/http.service';
 import { PrimeNGConfig } from 'primeng/api';
+import { PlayService } from 'src/app/core/services/play.service';
+
 
 @Component({
   selector: 'app-home',
@@ -15,8 +18,11 @@ export class HomeComponent implements OnInit {
   responsiveOptions: any[];
   sortField = 'pubDate';
   sortOrder = 'desc';
+  currentCast: Cast;
+  flagEpisodeSidebar = false;
+  episodes: Episode[];
 
-  constructor(private client: HttpService, private primengConfig: PrimeNGConfig) {
+  constructor(private client: HttpService, private playService: PlayService, private primengConfig: PrimeNGConfig) {
     this.responsiveOptions = [
       {
         breakpoint: '1024px',
@@ -36,12 +42,11 @@ export class HomeComponent implements OnInit {
     ];
   }
 
-  showEpisodes(cast) {
-    console.log(cast);
-  }
-
-  onSortChange($evt) {
-
+  async showEpisodes(cast) {
+    this.currentCast = cast;
+    console.log(this.currentCast);
+    this.episodes = await this.client.getEpisodes(this.currentCast.podcastID);
+    this.flagEpisodeSidebar = true;
   }
 
   mergeCastInfo = {
@@ -64,5 +69,14 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit() {
     this.client.getCasts().subscribe(this.mergeCastInfo);
+  }
+
+  closeSidebar() {
+    this.flagEpisodeSidebar = false;
+  }
+
+  playEpisode(ep: Episode) {
+    console.log(ep);
+    this.playService.plugEpisode(ep);
   }
 }

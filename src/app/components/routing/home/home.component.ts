@@ -64,6 +64,7 @@ export class HomeComponent implements OnInit {
       c.sort((a: Cast, b: Cast) => { return a.lastPubAt < b.lastPubAt ? 1 : -1 });
       c.forEach(item => item.summary = item.summary.replace(/<[^>]*>?/gm, ''));
       this.casts = c;
+      this.client.setCasts(c);
       console.log(this.casts);
       this.cols = Object.keys(this.casts[0]).filter(k => !this.hiddenColums.includes(k)).map(k => { let item = { 'field': k, 'header': k }; return item; });
       console.log('casts', this.cols, this.casts);
@@ -71,7 +72,7 @@ export class HomeComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.client.getCasts().subscribe(this.mergeCastInfo);
+    this.client.fetchCasts().subscribe(this.mergeCastInfo);
     this.sortOptions = [
       { label: 'Lastet episode', value: '!lastPubAt' },
       { label: 'Oldest episode', value: 'lastPubAt' }

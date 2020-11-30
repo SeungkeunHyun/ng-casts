@@ -21,6 +21,8 @@ import { PlayerComponent } from './components/parts/player/player.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { ConfigComponent } from './routing/config/config.component';
+import { BookmarkComponent } from './components/routing/bookmark/bookmark.component';
+import { DurationPipe } from './core/pipes/duration.pipe';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { ConfigComponent } from './routing/config/config.component';
     EditComponent,
     SidebarComponent,
     PlayerComponent,
-    ConfigComponent
+    ConfigComponent,
+    BookmarkComponent,
+    DurationPipe
   ],
   imports: [
     BrowserModule,

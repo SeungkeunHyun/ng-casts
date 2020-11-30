@@ -1,0 +1,23 @@
+<p-table #tabBookmark styleClass="p-datatable-sm" styleClass="p-datatable-striped" [value]="bookmarks">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Cast</th>
+            <th>Title</th>
+            <th>Frame</th>
+            <th>Stopped At</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-bm>
+        <tr (click)="playBookmark(bm)" style="vertical-align: top;">
+            <td>
+                <div class='p-grid'>
+                    <span class='p-col-4'><img src="{{bm.cast.imageURL}}" height="60px" alt="{{bm.cast.name}}"></span>
+                    <span class='p-col-8'>{{bm.cast.name}}</span>
+                </div>
+            </td>
+            <td>{{bm.episode.title}}</td>
+            <td>{{bm.episode.frame | duration}}</td>
+            <td>{{bm.episode.stoppedAt | date: 'yy-MM-dd HH:mm'}}</td>
+        </tr>
+    </ng-template>
+</p-table>

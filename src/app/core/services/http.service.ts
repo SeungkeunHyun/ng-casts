@@ -39,6 +39,14 @@ export class HttpService {
   }
 
   getCasts() {
+    return this.casts;
+  }
+
+  getCast(castId: string) {
+    return this.casts.find(i => i.podcastID == castId);
+  }
+
+  fetchCasts() {
     console.log(this.headers);
     let qry = { query: { exists: { field: 'podcastID' } } };
     const casts: Observable<EsResponse> = this.http.post<EsResponse>(`${environment.esHost}/casts/_search?size=200`, qry, { headers: this.headers });

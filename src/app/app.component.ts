@@ -14,6 +14,7 @@ export class AppComponent {
   ngOnInit() {
     this.items = [
       { label: 'Home', icon: 'pi pi-fw pi-home', routerLink: 'home' },
+      { label: 'Bookmarks', icon: 'pi pi-fw pi-bookmark', routerLink: 'bookmark' },
       { label: 'Edit', icon: 'pi pi-fw pi-pencil', routerLink: 'edit' },
       { label: 'Config', icon: 'pi pi-fw pi-cog', routerLink: 'config' }
     ];

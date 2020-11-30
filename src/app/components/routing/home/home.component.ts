@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Cast } from 'src/app/core/models/cast';
 import { Episode } from 'src/app/core/models/episode';
 import { HttpService } from 'src/app/core/services/http.service';
@@ -12,6 +12,7 @@ import { PlayService } from 'src/app/core/services/play.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  @ViewChild('dv') dv;
   casts: Cast[];
   hiddenColums = ['podcastID', 'feedURL', 'summary', 'imageURL', 'author', 'episodes'];
   cols: any[];
@@ -21,7 +22,7 @@ export class HomeComponent implements OnInit {
   currentCast: Cast;
   flagEpisodeSidebar = false;
   episodes: Episode[];
-
+  categories: any[];
   sortOptions: SelectItem[];
 
   constructor(private client: HttpService, private playService: PlayService, private primengConfig: PrimeNGConfig) {
@@ -65,7 +66,8 @@ export class HomeComponent implements OnInit {
       c.forEach(item => item.summary = item.summary.replace(/<[^>]*>?/gm, ''));
       this.casts = c;
       this.client.setCasts(c);
-      console.log(this.casts);
+      this.categories = [...new Set(c.map(it => it.category))].map(it => { return { label: it, value: it } });
+      this.categories.unshift({ label: 'All', value: '' });
       this.cols = Object.keys(this.casts[0]).filter(k => !this.hiddenColums.includes(k)).map(k => { let item = { 'field': k, 'header': k }; return item; });
       console.log('casts', this.cols, this.casts);
     }
@@ -81,6 +83,11 @@ export class HomeComponent implements OnInit {
 
   closeSidebar(opened: boolean) {
     this.flagEpisodeSidebar = false;
+  }
+
+  onFilterChange(event) {
+    console.log(event);
+    this.dv.filter(event.value);
   }
 
   onSortChange(event) {

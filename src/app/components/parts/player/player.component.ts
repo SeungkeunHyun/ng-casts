@@ -57,12 +57,22 @@ export class PlayerComponent implements OnInit {
     this.storeToStorage();
   }
 
+  deleteBookmark() {
+    if (!localStorage.getItem("bookmarks")) {
+      return;
+    }
+    let bm: any = JSON.parse(localStorage.getItem("bookmarks"));
+    delete bm[this.episode.episodeID];
+    localStorage.setItem("bookmarks", JSON.stringify(bm));
+  }
+
   setupEvents(evt) {
     this.player = evt.target;
     const frame = this.getSavedFrame(this.episode.episodeID);
     if (frame > 0)
       this.player.currentTime = frame;
     this.player.onpause = this.player.onerror = e => this.setBookmark(this.player.currentTime);
+    this.player.onended = e => this.deleteBookmark();
     this.player.ontimeupdate = e => {
       //console.log(this.player.currentTime);
       let seconds = Math.floor(this.player.currentTime);

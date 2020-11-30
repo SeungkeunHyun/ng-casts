@@ -3,7 +3,7 @@
         [sortOrder]="sortOrder" layout="grid">
         <ng-template pTemplate="header">
             <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
-                <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Price"
+                <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By LastPubAt"
                     (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
                 <span class="p-input-icon-left p-mb-2 p-mb-md-0">
                     <i class="pi pi-search"></i>
@@ -18,13 +18,18 @@
                 <div class="product-list-item">
                     <img src="{{cast.imageURL}}" width="100px" [alt]="cast.name" />
                     <div class="product-list-detail">
-                        <div class="product-name">{{cast.name}}</div>
-                        <div class="product-description">{{cast.description}}</div>
+                        <div class="product-name">
+                            <h4>{{cast.name}}</h4>
+                            <span class="product-price p-tag p-tag-rounded p-mr-6"
+                                style="float:right">${{cast.episodes}}</span>
+                        </div>
+                        <div class="product-description" title="{{cast.summary}}">
+                            {{cast.summary | slice:0:25}}</div>
                         <i class="pi pi-tag product-category-icon"></i><span
                             class="product-category">{{cast.category}}</span>
                     </div>
                     <div class="product-list-action">
-                        <span class="product-price">${{cast.episodes}}</span>
+                        <span>{{cast.lastPubAt | date:'yy-MM-dd HH:mm'}}</span>
                     </div>
                 </div>
             </div>
@@ -39,16 +44,23 @@
                         </div>
                     </div>
                     <div class="product-grid-item-content">
-                        <img src="{{cast.imageURL}}" width="100px" alt="{{cast.name}}" />
-                        <div class="product-name">{{cast.name}}</div>
-                        <div class="product-description">{{cast.description}}</div>
+                        <img src="{{cast.imageURL}}" width="90%" alt="{{cast.name}}" />
+                        <div class="product-name">
+                            <h4>{{cast.name}}
+                                <span class="product-price p-tag p-tag-rounded p-mr-4"
+                                    style="float:right">{{cast.episodes}}</span>
+                            </h4>
+                        </div>
+                        <div class="product-grid-item-bottom">{{cast.lastPubAt| date:'yy-MM-dd HH:mm'}}</div>
                     </div>
-                    <div class="product-grid-item-bottom">
-                        <span class="product-price">{{cast.episodes}}</span>
+                    <div class="product-description">
+                        <span title="{{cast.summary}}">{{cast.summary | slice:0:25}}</span>
                     </div>
                 </div>
             </div>
         </ng-template>
     </p-dataView>
 </div>
-<app-sidebar position="right" [episodes]="episodes" [display]="flagEpisodeSidebar"></app-sidebar>
+<app-sidebar position="right" [episodes]="episodes" [display]="flagEpisodeSidebar" (closeEvent)="closeSidebar($event)"
+    (playEvent)="playEpisode($event)">
+</app-sidebar>

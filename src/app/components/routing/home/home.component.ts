@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Cast } from 'src/app/core/models/cast';
 import { Episode } from 'src/app/core/models/episode';
 import { HttpService } from 'src/app/core/services/http.service';
-import { PrimeNGConfig } from 'primeng/api';
+import { PrimeNGConfig, SelectItem } from 'primeng/api';
 import { PlayService } from 'src/app/core/services/play.service';
 
 
@@ -16,11 +16,13 @@ export class HomeComponent implements OnInit {
   hiddenColums = ['podcastID', 'feedURL', 'summary', 'imageURL', 'author', 'episodes'];
   cols: any[];
   responsiveOptions: any[];
-  sortField = 'pubDate';
-  sortOrder = 'desc';
+  sortField: string;
+  sortOrder: number;
   currentCast: Cast;
   flagEpisodeSidebar = false;
   episodes: Episode[];
+
+  sortOptions: SelectItem[];
 
   constructor(private client: HttpService, private playService: PlayService, private primengConfig: PrimeNGConfig) {
     this.responsiveOptions = [
@@ -60,6 +62,7 @@ export class HomeComponent implements OnInit {
         i.episodes = si.doc_count;
       });
       c.sort((a: Cast, b: Cast) => { return a.lastPubAt < b.lastPubAt ? 1 : -1 });
+      c.forEach(item => item.summary = item.summary.replace(/<[^>]*>?/gm, ''));
       this.casts = c;
       console.log(this.casts);
       this.cols = Object.keys(this.casts[0]).filter(k => !this.hiddenColums.includes(k)).map(k => { let item = { 'field': k, 'header': k }; return item; });
@@ -69,14 +72,30 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit() {
     this.client.getCasts().subscribe(this.mergeCastInfo);
+    this.sortOptions = [
+      { label: 'Lastet episode', value: '!lastPubAt' },
+      { label: 'Oldest episode', value: 'lastPubAt' }
+    ];
   }
 
-  closeSidebar() {
+  closeSidebar(opened: boolean) {
     this.flagEpisodeSidebar = false;
   }
 
+  onSortChange(event) {
+    let value = event.value;
+
+    if (value.indexOf('!') === 0) {
+      this.sortOrder = -1;
+      this.sortField = value.substring(1, value.length);
+    }
+    else {
+      this.sortOrder = 1;
+      this.sortField = value;
+    }
+  }
   playEpisode(ep: Episode) {
     console.log(ep);
-    this.playService.plugEpisode(ep);
+    this.playService.plugEpisode(this.currentCast, ep);
   }
 }

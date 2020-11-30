@@ -11,6 +11,7 @@ import { forkJoin, Observable } from 'rxjs';
 })
 export class HttpService {
   headers: HttpHeaders;
+  casts: Cast[];
   castQuery = {
     "aggs": {
       "cast_summary": {
@@ -32,6 +33,11 @@ export class HttpService {
   constructor(private http: HttpClient) {
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Basic ' + btoa(environment.esUsername + ':' + environment.esPassword) });
   }
+
+  setCasts(casts: Cast[]) {
+    this.casts = casts;
+  }
+
   getCasts() {
     console.log(this.headers);
     let qry = { query: { exists: { field: 'podcastID' } } };

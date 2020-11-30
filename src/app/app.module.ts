@@ -18,6 +18,9 @@ import { SidebarComponent } from './components/parts/sidebar/sidebar.component';
 import { TimeagoModule } from 'ngx-timeago';
 import { CommonModule } from "@angular/common";
 import { PlayerComponent } from './components/parts/player/player.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
+import { ConfigComponent } from './routing/config/config.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,8 @@ import { PlayerComponent } from './components/parts/player/player.component';
     HomeComponent,
     EditComponent,
     SidebarComponent,
-    PlayerComponent
+    PlayerComponent,
+    ConfigComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +44,8 @@ import { PlayerComponent } from './components/parts/player/player.component';
     OrderListModule,
     SidebarModule,
     CommonModule,
-    TimeagoModule.forRoot()
+    DropdownModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

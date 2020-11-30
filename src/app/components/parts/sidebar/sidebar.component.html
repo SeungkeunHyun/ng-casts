@@ -1,6 +1,7 @@
-<p-sidebar #dt1 [visible]="display" [(position)]="position" styleClass="p-sidebar-lg" [baseZIndex]="10000"
-    (onHide)="disposeAll()" (onShow)="setTableData()">
-    <p-table styleClass="p-datatable-sm" styleClass="p-datatable-striped" [globalFilterFields]="['title']"
+<p-sidebar [visible]="display" [(position)]="position" [style]="{width:'80%'}" styleClass="p-sidebar-lg"
+    dismissible="true" [baseZIndex]="10000" (onHide)="disposeAll()" (onShow)="setTableData()">
+    <br>
+    <p-table #dt1 styleClass="p-datatable-sm" styleClass="p-datatable-striped" [globalFilterFields]="['title']"
         [scrollable]="true" [scrollHeight]="scrollHeight" *ngIf="episodes" [value]="episodes">
         <ng-template pTemplate="caption">
             <div class="p-d-flex">
@@ -13,20 +14,20 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr class='p-grid'>
-                <th class="p-col-1">pub date</th>
-                <th class="p-col-9">title</th>
+                <th class="p-col-2">pub date</th>
+                <th class="p-col-8">title</th>
                 <th class="p-col-2">duration</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-episode>
-            <tr (click)="playEpisode(episode)">
+            <tr class="p-col-2" (click)="playEpisode(episode)">
                 <td>
                     {{episode['pubDate'] | date:'yy/MM/dd HH:mm'}}
                 </td>
-                <td>
+                <td class="p-col-8">
                     <span title="{{episode.summary}}">{{episode['title']}}</span>
                 </td>
-                <td>
+                <td class="p-col-2">
                     {{episode['duration']}}
                 </td>
             </tr>

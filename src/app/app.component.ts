@@ -10,12 +10,12 @@ export class AppComponent {
   title = 'ng-casts';
   items: MenuItem[];
   activeItem: MenuItem;
-  
+
   ngOnInit() {
     this.items = [
       { label: 'Home', icon: 'pi pi-fw pi-home', routerLink: 'home' },
       { label: 'Edit', icon: 'pi pi-fw pi-pencil', routerLink: 'edit' },
-      { label: 'Settings', icon: 'pi pi-fw pi-cog' }
+      { label: 'Config', icon: 'pi pi-fw pi-cog', routerLink: 'config' }
     ];
     this.activeItem = this.items[0];
   }

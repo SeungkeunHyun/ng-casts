@@ -7,4 +7,6 @@ export interface Episode {
     duration: string;
     cast_episode: string;
     episodeID: string;
+    frame?: number;
+    stoppedAt?: Date;
 }

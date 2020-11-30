@@ -26,7 +26,7 @@
                                 style="float:right">${{cast.episodes}}</span>
                         </div>
                         <div class="product-description" title="{{cast.summary}}">
-                            {{cast.summary | slice:0:25}}</div>
+                            {{cast.summary | concat:22}}</div>
                         <i class="pi pi-tag product-category-icon"></i><span
                             class="product-category">{{cast.category}}</span>
                     </div>
@@ -56,7 +56,7 @@
                         <div class="product-grid-item-bottom">{{cast.lastPubAt| date:'yy-MM-dd HH:mm'}}</div>
                     </div>
                     <div class="product-description">
-                        <span title="{{cast.summary}}">{{cast.summary | slice:0:25}}</span>
+                        <span title="{{cast.summary}}">{{cast.summary | concat:22}}</span>
                     </div>
                 </div>
             </div>

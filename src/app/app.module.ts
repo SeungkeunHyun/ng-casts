@@ -15,7 +15,6 @@ import { OrderListModule } from 'primeng/orderlist';
 import { SidebarModule } from 'primeng/sidebar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SidebarComponent } from './components/parts/sidebar/sidebar.component';
-import { TimeagoModule } from 'ngx-timeago';
 import { CommonModule } from "@angular/common";
 import { PlayerComponent } from './components/parts/player/player.component';
 import { DropdownModule } from 'primeng/dropdown';
@@ -23,6 +22,7 @@ import { FormsModule } from '@angular/forms';
 import { ConfigComponent } from './routing/config/config.component';
 import { BookmarkComponent } from './components/routing/bookmark/bookmark.component';
 import { DurationPipe } from './core/pipes/duration.pipe';
+import { ConcatPipe } from './core/pipes/concat.pipe';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,8 @@ import { DurationPipe } from './core/pipes/duration.pipe';
     PlayerComponent,
     ConfigComponent,
     BookmarkComponent,
-    DurationPipe
+    DurationPipe,
+    ConcatPipe
   ],
   imports: [
     BrowserModule,

@@ -10,10 +10,8 @@
     <ng-template pTemplate="body" let-bm>
         <tr (click)="playBookmark(bm)" style="vertical-align: top;">
             <td>
-                <div class='p-grid'>
-                    <span class='p-col-4'><img src="{{bm.cast.imageURL}}" height="60px" alt="{{bm.cast.name}}"></span>
-                    <span class='p-col-8'>{{bm.cast.name}}</span>
-                </div>
+                <img src="{{bm.cast.imageURL}}" height="100px" style="margin-right: 10px;" alt="{{bm.cast.name}}">
+                <h4>{{bm.cast.name}}</h4>
             </td>
             <td>{{bm.episode.title}}</td>
             <td>{{bm.episode.frame | duration}}</td>

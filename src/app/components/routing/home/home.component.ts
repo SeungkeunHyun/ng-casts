@@ -48,9 +48,9 @@ export class HomeComponent implements OnInit {
 
   async showEpisodes(cast) {
     this.currentCast = cast;
-    console.log(this.currentCast);
     this.episodes = await this.client.getEpisodes(this.currentCast.podcastID);
     this.flagEpisodeSidebar = true;
+    console.log("open episodelist", cast, this.flagEpisodeSidebar);
   }
 
   mergeCastInfo = {
@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit {
   async ngOnInit() {
     this.client.fetchCasts().subscribe(this.mergeCastInfo);
     this.loadedAt = new Date(await this.client.getLastLoadedAt());
-    console.log(this.loadedAt);
+    this.playService.cast$.subscribe(async (cast) => await this.showEpisodes(cast));
     this.sortOptions = [
       { label: 'Lastet episode', value: '!lastPubAt' },
       { label: 'Oldest episode', value: 'lastPubAt' }
@@ -89,7 +89,7 @@ export class HomeComponent implements OnInit {
   }
 
   closeSidebar(opened: boolean) {
-    this.flagEpisodeSidebar = false;
+    this.flagEpisodeSidebar = opened;
   }
 
   onFilterChange(event) {
@@ -111,6 +111,6 @@ export class HomeComponent implements OnInit {
   }
   playEpisode(ep: Episode) {
     console.log(ep);
-    this.playService.plugEpisode(this.currentCast, ep);
+    this.playService.plugEpisode(ep);
   }
 }

@@ -1,8 +1,9 @@
 <p-sidebar [visible]="display" [(position)]="position" [style]="{width:'80%'}" styleClass="p-sidebar-lg"
     dismissible="true" [baseZIndex]="10000" (onHide)="disposeAll()" (onShow)="setTableData()">
     <br>
-    <p-table #dt1 styleClass="p-datatable-sm" styleClass="p-datatable-striped" [globalFilterFields]="['title']"
-        [scrollable]="true" [scrollHeight]="scrollHeight" *ngIf="episodes" [value]="episodes">
+    <p-table #dt1 styleClass="p-datatable-sm" selectionMode="single" [(selection)]="episodeInPlay" dataKey="episodeID"
+        styleClass="p-datatable-striped" [globalFilterFields]="['title']" [scrollable]="true"
+        [scrollHeight]="scrollHeight" *ngIf="episodes" [value]="episodes">
         <ng-template pTemplate="caption">
             <div class="p-d-flex">
                 <span class="p-input-icon-left p-ml-auto">
@@ -20,7 +21,7 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-episode>
-            <tr class="p-col-2" (click)="playEpisode(episode)">
+            <tr class="p-col-2" (click)="playEpisode(episode)" [pSelectableRow]="episode">
                 <td>
                     {{episode['pubDate'] | date:'yy/MM/dd HH:mm'}}
                 </td>

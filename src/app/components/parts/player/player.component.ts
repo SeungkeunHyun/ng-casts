@@ -1,6 +1,7 @@
 import { AfterContentInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Cast } from 'src/app/core/models/cast';
 import { Episode } from 'src/app/core/models/episode';
+import { HttpService } from 'src/app/core/services/http.service';
 import { PlayService } from 'src/app/core/services/play.service';
 
 @Component({
@@ -12,16 +13,22 @@ export class PlayerComponent implements OnInit {
   @ViewChild('player') audioPlayer: ElementRef;
   player: HTMLAudioElement;
   episode: Episode;
+  prevEntry: Episode;
+  nextEntry: Episode;
   cast: Cast;
-  constructor(private playService: PlayService) {
+  constructor(private playService: PlayService, private client: HttpService) {
 
   }
 
   ngOnInit(): void {
-    this.playService.episode.subscribe(ep => {
-      this.cast = this.playService.currentCast();
+    this.playService.episode$.subscribe(ep => {
       this.episode = ep;
+      this.cast = this.client.getCast(ep.cast_episode);
     });
+  }
+
+  triggerEpisodeList(cast: Cast) {
+    this.playService.plugCast(cast);
   }
 
   moveTo(secs: number) {
@@ -66,11 +73,33 @@ export class PlayerComponent implements OnInit {
     localStorage.setItem("bookmarks", JSON.stringify(bm));
   }
 
+  async setPrevNext() {
+    const episodes = await this.client.getCachedEpisodes(this.episode.cast_episode);
+    const idx = episodes.findIndex(it => it.episodeID === this.episode.episodeID);
+    if (idx > 0) {
+      this.prevEntry = episodes[idx - 1];
+    }
+    if (idx < episodes.length - 1) {
+      this.nextEntry = episodes[idx + 1];
+    }
+    console.log(this.prevEntry, this.nextEntry);
+  }
+
+  togglePlayer() {
+    if (this.player.paused) this.player.play();
+    else this.player.pause();
+  }
+
+  playEpisode(ep: Episode) {
+    this.playService.plugEpisode(ep);
+  }
+
   setupEvents(evt) {
     this.player = evt.target;
     const frame = this.getSavedFrame(this.episode.episodeID);
     if (frame > 0)
       this.player.currentTime = frame;
+    this.setPrevNext();
     this.player.onpause = this.player.onerror = e => this.setBookmark(this.player.currentTime);
     this.player.onended = e => this.deleteBookmark();
     this.player.ontimeupdate = e => {

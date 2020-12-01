@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Episode } from 'src/app/core/models/episode';
 import { HttpService } from 'src/app/core/services/http.service';
 import { PlayService } from 'src/app/core/services/play.service';
@@ -11,7 +12,7 @@ import { PlayService } from 'src/app/core/services/play.service';
 export class BookmarkComponent implements OnInit {
   bookmarks: any = [];
   jsonBM: any;
-  constructor(private client: HttpService, private playService: PlayService) { }
+  constructor(private client: HttpService, private playService: PlayService, private router: Router) { }
   ngOnInit(): void {
     const strBM = localStorage.getItem("bookmarks")
     if (!strBM) {
@@ -26,7 +27,8 @@ export class BookmarkComponent implements OnInit {
   }
   playBookmark(bm: any) {
     console.log("bookmark", bm);
-    this.playService.plugEpisode(bm.cast, bm.episode);
+    this.playService.plugEpisode(bm.episode);
+    this.router.navigate(['/home']);
   }
   deleteBookmark(bm: any) {
     console.log(bm);

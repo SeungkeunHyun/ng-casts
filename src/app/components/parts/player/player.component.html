@@ -1,16 +1,22 @@
 <div *ngIf="episode" class="p-grid" style="vertical-align: top;">
-    <div class="p-col-3">
+    <div class="p-col-3" (click)="triggerEpisodeList(cast)">
         <img src="{{cast.imageURL}}" width="120px" title="{{cast.name}}" />
         <div>
             <h4>{{cast.name}}</h4>
         </div>
     </div>
     <div class="p-col-9">
-        <h3>{{episode.title}}</h3>
-        <div class="p-grid"><i class="pi pi-backward p-col-4" (click)="moveTo(-30)"> backward</i><span
-                class='p-col-4'>30
-                seconds</span><i class="pi pi-forward p-col-4" (click)="moveTo(30)"> forwawrd</i></div>
-        <audio style="width:100%" #player src="{{episode.mediaURL}}" controls autoplay
-            (play)="setupEvents($event)"></audio>
+        <h3 title="{{episode.summary}}">{{episode.title}}</h3>
+        <div class="p-grid">
+            <div class="d-flex p-col-4"><i *ngIf="prevEntry" class="pi pi-fast-backward" style="float:left"
+                    (click)="playEpisode(prevEntry)" title="{{prevEntry.title}}"></i><i class="pi pi-backward"
+                    style="float:right" (click)="moveTo(-30)"></i></div>
+            <div class='p-col-4' style="text-align: center;vertical-align: top;"><i
+                    class="pi pi-{{player.paused ? 'play' : 'pause'}}" (click)="togglePlayer()"></i></div>
+            <div class="d-flex p-col-4"><i class="pi pi-forward" style="float:left" (click)="moveTo(30)"></i>
+                <i *ngIf="nextEntry" style="float:right" class="pi pi-fast-forward" title="{{nextEntry.title}}"
+                    (click)=" playEpisode(nextEntry)"></i></div>
+            <audio style="width:100%" #player src="{{episode.mediaURL}}" controls autoplay
+                (play)="setupEvents($event)"></audio>
+        </div>
     </div>
-</div>

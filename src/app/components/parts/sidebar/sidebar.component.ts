@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Episode } from 'src/app/core/models/episode';
+import { PlayService } from 'src/app/core/services/play.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,9 +13,10 @@ export class SidebarComponent implements OnInit {
   @Input() display: boolean;
   @Output() closeEvent = new EventEmitter<boolean>();
   @Output() playEvent = new EventEmitter<Episode>();
+  episodeInPlay: Episode;
   cols = ['pubDate', 'title', 'duration']
   scrollHeight = '400px'
-  constructor() {
+  constructor(private playService: PlayService) {
   }
 
   playEpisode(ep) {
@@ -23,6 +25,7 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.episodeInPlay = this.playService.getEpisodeInPlay();
   }
 
   setTableData() {

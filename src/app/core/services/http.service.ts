@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment'
 import { map, catchError } from 'rxjs/operators';
 import { EsResponse } from '../models/es-response';
 import { forkJoin, Observable } from 'rxjs';
+import { Episode } from '../models/episode';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ import { forkJoin, Observable } from 'rxjs';
 export class HttpService {
   headers: HttpHeaders;
   casts: Cast[];
+  castCache = {};
+  lastLoadedAt = new Date('1970-01-01');
   castQuery = {
     "aggs": {
       "cast_summary": {
@@ -36,6 +39,17 @@ export class HttpService {
 
   setCasts(casts: Cast[]) {
     this.casts = casts;
+  }
+
+  setCastCache(castId: string, episodes: Episode[]) {
+    this.castCache[castId] = episodes;
+  }
+
+  async getCachedEpisodes(castId: string): Promise<Episode[]> {
+    if (!this.castCache.hasOwnProperty(castId)) {
+      this.setCastCache(castId, await this.getEpisodes(castId));
+    }
+    return this.castCache[castId];
   }
 
   getCasts() {
@@ -78,6 +92,7 @@ export class HttpService {
         "pubDate": { "order": "desc" }
       }
     }
+    const nowDate = new Date();
     return this.http.post(`${environment.esHost}/casts/_search`, JSON.stringify(epQuery), { headers: this.headers }).pipe(map((dat: EsResponse) => dat.hits.hits.map(item => item._source))).toPromise();
   }
 }

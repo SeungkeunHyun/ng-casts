@@ -7,18 +7,23 @@ import { Episode } from '../models/episode';
   providedIn: 'root'
 })
 export class PlayService {
-  cast: Cast;
-  episode = new Subject<Episode>();
+  public cast$ = new Subject<Cast>();
+  public episode$ = new Subject<Episode>();
+  episodeInPlay: Episode;
   constructor() {
 
   }
 
-  currentCast(): Cast {
-    return this.cast;
+  plugCast(cast: Cast) {
+    this.cast$.next(cast);
   }
 
-  plugEpisode(cast: Cast, ep: Episode) {
-    this.cast = cast;
-    this.episode.next(ep);
+  getEpisodeInPlay() {
+    return this.episodeInPlay;
+  }
+
+  plugEpisode(ep: Episode) {
+    this.episode$.next(ep);
+    this.episodeInPlay = ep;
   }
 }

@@ -15,7 +15,8 @@
             </td>
             <td>{{bm.episode.title}}</td>
             <td>{{bm.episode.frame | duration}}</td>
-            <td>{{bm.episode.stoppedAt | date: 'yy-MM-dd HH:mm'}}</td>
+            <td>{{bm.episode.stoppedAt | date: 'yy-MM-dd HH:mm'}} <i class="pi pi-trash"
+                    (click)="deleteBookmark(bm)"></i></td>
         </tr>
     </ng-template>
 </p-table>

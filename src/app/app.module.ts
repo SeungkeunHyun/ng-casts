@@ -23,6 +23,7 @@ import { ConfigComponent } from './routing/config/config.component';
 import { BookmarkComponent } from './components/routing/bookmark/bookmark.component';
 import { DurationPipe } from './core/pipes/duration.pipe';
 import { ConcatPipe } from './core/pipes/concat.pipe';
+import { SincePipe } from './core/pipes/since.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ConcatPipe } from './core/pipes/concat.pipe';
     ConfigComponent,
     BookmarkComponent,
     DurationPipe,
-    ConcatPipe
+    ConcatPipe,
+    SincePipe
   ],
   imports: [
     BrowserModule,

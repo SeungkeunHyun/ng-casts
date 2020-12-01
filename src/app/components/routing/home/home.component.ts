@@ -9,7 +9,7 @@ import { PlayService } from 'src/app/core/services/play.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   @ViewChild('dv') dv;
@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
   episodes: Episode[];
   categories: any[];
   sortOptions: SelectItem[];
+  loadedAt: Date;
 
   constructor(private client: HttpService, private playService: PlayService, private primengConfig: PrimeNGConfig) {
     this.responsiveOptions = [
@@ -58,8 +59,12 @@ export class HomeComponent implements OnInit {
       let s: any[] = res2.aggregations.cast_summary.buckets;
       c.map(i => {
         let si = s.find(si => si.key == i.podcastID);
-        console.log(i, si);
-        i.lastPubAt = si.lastPub.value_as_string;
+        const now = new Date();
+        if (now < new Date(si.lastPub.value_as_string)) {
+          i.lastPubAt = si.lastPub.value_as_string.replace(/Z$/, '');
+        } else {
+          i.lastPubAt = si.lastPub.value_as_string;
+        }
         i.episodes = si.doc_count;
       });
       c.sort((a: Cast, b: Cast) => { return a.lastPubAt < b.lastPubAt ? 1 : -1 });
@@ -75,6 +80,8 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit() {
     this.client.fetchCasts().subscribe(this.mergeCastInfo);
+    this.loadedAt = new Date(await this.client.getLastLoadedAt());
+    console.log(this.loadedAt);
     this.sortOptions = [
       { label: 'Lastet episode', value: '!lastPubAt' },
       { label: 'Oldest episode', value: 'lastPubAt' }

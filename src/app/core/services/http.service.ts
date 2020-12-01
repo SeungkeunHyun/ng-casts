@@ -46,6 +46,18 @@ export class HttpService {
     return this.casts.find(i => i.podcastID == castId);
   }
 
+  getLastLoadedAt() {
+    const qry = {
+      "size": 0,
+      "aggs": {
+        "latest_load": {
+          "max": { "field": "load_timestamp" }
+        }
+      }
+    }
+    return this.http.post(`${environment.esHost}/casts/_search`, qry, { headers: this.headers }).pipe(map((dat: EsResponse) => dat.aggregations.latest_load.value_as_string.replace(/Z$/, ''))).toPromise();
+  }
+
   fetchCasts() {
     console.log(this.headers);
     let qry = { query: { exists: { field: 'podcastID' } } };

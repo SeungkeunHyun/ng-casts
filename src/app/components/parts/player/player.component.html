@@ -1,4 +1,4 @@
-<div *ngIf="episode" class="p-grid">
+<div *ngIf="episode" class="p-grid" style="vertical-align: top;">
     <div class="p-col-3">
         <img src="{{cast.imageURL}}" width="120px" title="{{cast.name}}" />
         <div>
@@ -7,8 +7,9 @@
     </div>
     <div class="p-col-9">
         <h3>{{episode.title}}</h3>
-        <div class="p-grid"><i class="pi pi-backward p-col-4" (click)="moveTo(-30)">backward</i><span class='p-col-4'>30
-                seconds</span><i class="pi pi-forward p-col-4" (click)="moveTo(30)">forwawrd</i></div>
+        <div class="p-grid"><i class="pi pi-backward p-col-4" (click)="moveTo(-30)"> backward</i><span
+                class='p-col-4'>30
+                seconds</span><i class="pi pi-forward p-col-4" (click)="moveTo(30)"> forwawrd</i></div>
         <audio style="width:100%" #player src="{{episode.mediaURL}}" controls autoplay
             (play)="setupEvents($event)"></audio>
     </div>

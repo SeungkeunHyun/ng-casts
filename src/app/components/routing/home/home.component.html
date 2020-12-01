@@ -3,8 +3,11 @@
         [sortOrder]="sortOrder" layout="grid">
         <ng-template pTemplate="header">
             <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
-                <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By LastPubAt"
+                <span *ngIf="loadedAt">loaded {{loadedAt | since}} ago</span>
+                <!--// 
+                    <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By LastPubAt"
                     (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
+                //-->
                 <p-dropdown [options]="categories" placeholder="Filter By Category" (onChange)="onFilterChange($event)"
                     styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
                 <span class="p-input-icon-left p-mb-2 p-mb-md-0">
@@ -21,17 +24,17 @@
                     <img src="{{cast.imageURL}}" width="100px" [alt]="cast.name" />
                     <div class="product-list-detail">
                         <div class="product-name">
-                            <h4>{{cast.name}}</h4>
-                            <span class="product-price p-tag p-tag-rounded p-mr-6"
-                                style="float:right">${{cast.episodes}}</span>
+                            {{cast.name}}
                         </div>
                         <div class="product-description" title="{{cast.summary}}">
                             {{cast.summary | concat:22}}</div>
                         <i class="pi pi-tag product-category-icon"></i><span
                             class="product-category">{{cast.category}}</span>
+
                     </div>
                     <div class="product-list-action">
                         <span>{{cast.lastPubAt | date:'yy-MM-dd HH:mm'}}</span>
+                        <span class="p-tag p-tag-rounded p-mr-6" style="float:right">${{cast.episodes}}</span>
                     </div>
                 </div>
             </div>
@@ -43,17 +46,16 @@
                         <div>
                             <i class="pi pi-tag product-category-icon"></i>
                             <span class="product-category">{{cast.category}}</span>
+
                         </div>
                     </div>
                     <div class="product-grid-item-content">
                         <img src="{{cast.imageURL}}" width="90%" alt="{{cast.name}}" />
                         <div class="product-name">
-                            <h4>{{cast.name}}
-                                <span class="product-price p-tag p-tag-rounded p-mr-4"
-                                    style="float:right">{{cast.episodes}}</span>
-                            </h4>
+                            {{cast.name}}
                         </div>
                         <div class="product-grid-item-bottom">{{cast.lastPubAt| date:'yy-MM-dd HH:mm'}}</div>
+                        <span class="p-tag p-tag-rounded p-mr-4" style="float:right">{{cast.episodes}}</span>
                     </div>
                     <div class="product-description">
                         <span title="{{cast.summary}}">{{cast.summary | concat:22}}</span>
